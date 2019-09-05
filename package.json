@@ -107,6 +107,7 @@
     "electron": "6.0.7",
     "electron-builder": "^21.2.0",
     "electron-rebuild": "1.8.6",
+    "kubernetes-client": "^8.3.4",
     "node-abi": "2.11.0",
     "node-json-minify": "1.0.0",
     "uglify-es": "3.3.9"
