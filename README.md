@@ -1,6 +1,6 @@
 <p align="center">
   <br>
-  <img alt="Logo" src="https://github.com/GitSquared/edex-ui/raw/master/media/logo.png">
+  <img alt="Logo" src="https://raw.githubusercontent.com/mhauer71/kubex-ui/master/media/logo.png">
   <br><br>
   <a href="https://lgtm.com/projects/g/GitSquared/edex-ui/context:javascript"><img alt="undefined" src="https://img.shields.io/lgtm/grade/javascript/g/GitSquared/edex-ui.svg?logo=lgtm&logoWidth=18"/></a>
   <br>
