@@ -6,69 +6,69 @@ class Nodes {
         this.parent = document.getElementById(parentId);
         this._element = document.createElement("div");
         this._element.setAttribute("id", "mod_nodes");
-        this._element.innerHTML = `<div id="mod_nodes_inner">
-            <div>
-                <h1>NAME</h1>
-                <h2 id="mod_nodes_name" >NONE</h2>
-            </div>
-            <div>
-                <h1>OS</h1>
-                <h2 id="mod_nodes_os" >NONE</h2>
-            </div>
-            <div>
-                <h1>STATUS</h1>
-                <h2 id="mod_nodes_status" >NONE</h2>
-            </div>
-        </div>`;
-
+        this._element.innerHTML = `<h1>NODES<i>NAME | OS | STATUS</i></h1><br>
+        <table id="mod_nodes_table"></table>`;
         this.parent.append(this._element);
-
         this.updateInfo();
         this.infoUpdater = setInterval(() => {
             this.updateInfo();
-        }, 20000);
+        }, 5000);
     }
-    updateInfo() {
-        //        async updateInfo() {
+    //updateInfo() {
+                async updateInfo() {
 
-        /*
-        window.si.system().then(d => {
-            window.si.chassis().then(e => {
-                document.getElementById("mod_hardwareInspector_manufacturer").innerText = this._trimDataString(d.manufacturer);
-                document.getElementById("mod_hardwareInspector_model").innerText = this._trimDataString(d.model, d.manufacturer, e.type);
-                document.getElementById("mod_hardwareInspector_chassis").innerText = e.type;
-            });
-        });
-        */
-        Client = require('kubernetes-client').Client
-        try {
+        const Client = require("kubernetes-client").Client;
+        var today = new Date();
+//        try {
             const client = new Client({ version: '1.13' })
                 //
                 // Get all the Nodes.
                 //        
-            const nodes = client.api.v1.nodes.get()
-                //const nodes = await client.api.v1.nodes.get()
-            nodes.body.items.forEach(el => {
-                /*
-                console.log(el.metadata.name, );
-                console.log(el.status.allocatable.cpu, "/", el.status.capacity.cpu, el.status.allocatable.memory, "/", el.status.capacity.memory, el.status.allocatable["ephemeral-storage"], "/", el.status.capacity["ephemeral-storage"], el.status.allocatable.pods, "/", el.status.capacity.pods);
-                el.status.conditions.forEach(condition => {
-                    console.log(condition.type, "/", condition.status);
+        //    const nodes = client.api.v1.nodes.get()
+                 const nodes = await client.api.v1.nodes.get()
+            document.querySelectorAll("#mod_nodes_table > tr").forEach(el => {
+                el.remove();
+            });
+            nodes.body.items.forEach(node => {
+                node.status.conditions.forEach(condition => {
+                    if (condition.type == "Ready") {
+                        
+                let el = document.createElement("tr");
+                el.innerHTML = `<td><strong>${this._trimDataString(node.metadata.name)}</strong></td>
+                                <td>${this._trimDataString(node.status.nodeInfo.operatingSystem)}</td>
+                                
+                                <td>${this._trimDataString(condition.status)}</td>`;
+                document.getElementById("mod_nodes_table").append(el);
+
+                    }
                 });
-                console.log("OS:", el.status.nodeInfo.osImage, "Kernel:", el.status.nodeInfo.kernelVersion);
-                */
-                document.getElementById("mod_nodes_name").innerText = this._trimDataString(el.metadata.name);
-                document.getElementById("mod_nodes_os").innerText = this._trimDataString(el.status.nodeInfo.operatingSystem);
-                el.status.conditions.forEach(condition => {
+            });
+            /*
+            .forEach( => {
+                let el = document.createElement("tr");
+                document.getElementById("mod_nodes_name").innerText = ;
+                document.getElementById("mod_nodes_os").innerText = ;
+                node.status.conditions.forEach(condition => {
                     if (condition.type == "Ready") {
                         document.getElementById("mod_nodes_status").innerText = this._trimDataString(condition.status);
                     }
                 });
             });
-        } catch (err) {
-            console.error('Error: ', err)
-        }
+            */
+            /*
+            document.getElementById("mod_nodes_name").innerText = today.getHours();
+            document.getElementById("mod_nodes_os").innerText = today.getMinutes();
+            document.getElementById("mod_nodes_status").innerText = today.getSeconds();
+            */
+//        } catch (err) {
+//            console.error('Error: ', err)
+ //       }
+    }
+    _trimDataString(str, ...filters) {
+        return str.trim().split(" ").filter(word => {
+            if (typeof filters !== "object") return true;
+
+            return !filters.includes(word);
+        }).slice(0, 2).join(" ");
     }
 }
-
-main()

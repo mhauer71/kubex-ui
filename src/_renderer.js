@@ -387,17 +387,17 @@ async function initUI() {
 
     // Left column
     window.mods.clock = new Clock("mod_column_left");
-    window.mods.sysinfo = new Sysinfo("mod_column_left");
+    //window.mods.sysinfo = new Sysinfo("mod_column_left");
     //window.mods.hardwareInspector = new HardwareInspector("mod_column_left");
     window.mods.Nodes = new Nodes("mod_column_left");
     //window.mods.cpuinfo = new Cpuinfo("mod_column_left");
-    window.mods.ramwatcher = new RAMwatcher("mod_column_left");
+    //window.mods.ramwatcher = new RAMwatcher("mod_column_left");
     window.mods.toplist = new Toplist("mod_column_left");
 
     // Right column
-    window.mods.netstat = new Netstat("mod_column_right");
-    window.mods.globe = new LocationGlobe("mod_column_right");
-    window.mods.conninfo = new Conninfo("mod_column_right");
+    //window.mods.netstat = new Netstat("mod_column_right");
+    //window.mods.globe = new LocationGlobe("mod_column_right");
+    //window.mods.conninfo = new Conninfo("mod_column_right");
 
     // Fade-in animations
     document.querySelectorAll(".mod_column").forEach(e => {
