@@ -1,6 +1,4 @@
-<p align="center">
-    ![kUBE-UI Logo](https://raw.githubusercontent.com/mhauer71/kubex-ui/master/media/logo.png)
-</p>
+![kUBEX-UI Logo](https://raw.githubusercontent.com/mhauer71/kubex-ui/master/media/logo.png)
 
   <!--
   <br><br>
@@ -18,7 +16,7 @@
   <br><br><br>
 </p>
 -->
-#kUBE-UI - A Kubernetes sci-fi looking terminal/monitor
+# kUBEX-UI - A Kubernetes sci-fi looking terminal/monitor
 
 This project is a fork of [eDEX-UI](https://github.com/GitSquared/edex-ui), the awesome sci-fi looking terminal emulator and system monitor made by [Squared](https://github.com/GitSquared).
 
