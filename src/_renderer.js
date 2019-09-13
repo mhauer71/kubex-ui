@@ -395,7 +395,7 @@ async function initUI() {
     window.mods.toplist = new Toplist("mod_column_left");
 
     // Right column
-    //window.mods.netstat = new Netstat("mod_column_right");
+    window.mods.netstat = new Netstat("mod_column_right");
     //window.mods.globe = new LocationGlobe("mod_column_right");
     //window.mods.conninfo = new Conninfo("mod_column_right");
 

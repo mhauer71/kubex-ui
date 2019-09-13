@@ -14,55 +14,43 @@ class Nodes {
             this.updateInfo();
         }, 5000);
     }
-    //updateInfo() {
-                async updateInfo() {
-
+    async updateInfo() {
         const Client = require("kubernetes-client").Client;
-        var today = new Date();
-//        try {
-            const client = new Client({ version: '1.13' })
-                //
-                // Get all the Nodes.
-                //        
-        //    const nodes = client.api.v1.nodes.get()
-                 const nodes = await client.api.v1.nodes.get()
+        const client = new Client({ version: '1.13' })
+        
+        //
+        // Get all the Nodes.
+        //        
+        
+        await client.api.v1.nodes.get().then(nodes => {
             document.querySelectorAll("#mod_nodes_table > tr").forEach(el => {
                 el.remove();
             });
             nodes.body.items.forEach(node => {
                 node.status.conditions.forEach(condition => {
                     if (condition.type == "Ready") {
-                        
-                let el = document.createElement("tr");
-                el.innerHTML = `<td><strong>${this._trimDataString(node.metadata.name)}</strong></td>
+                        let el = document.createElement("tr");
+                        el.innerHTML = `<td><strong>${this._trimDataString(node.metadata.name)}</strong></td>
                                 <td>${this._trimDataString(node.status.nodeInfo.operatingSystem)}</td>
                                 
                                 <td>${this._trimDataString(condition.status)}</td>`;
-                document.getElementById("mod_nodes_table").append(el);
-
+                        document.getElementById("mod_nodes_table").append(el);
                     }
                 });
             });
-            /*
-            .forEach( => {
-                let el = document.createElement("tr");
-                document.getElementById("mod_nodes_name").innerText = ;
-                document.getElementById("mod_nodes_os").innerText = ;
-                node.status.conditions.forEach(condition => {
-                    if (condition.type == "Ready") {
-                        document.getElementById("mod_nodes_status").innerText = this._trimDataString(condition.status);
-                    }
-                });
+        }).catch(err => {
+            document.querySelectorAll("#mod_nodes_table > tr").forEach(el => {
+                el.remove();
             });
-            */
-            /*
-            document.getElementById("mod_nodes_name").innerText = today.getHours();
-            document.getElementById("mod_nodes_os").innerText = today.getMinutes();
-            document.getElementById("mod_nodes_status").innerText = today.getSeconds();
-            */
-//        } catch (err) {
-//            console.error('Error: ', err)
- //       }
+            let el = document.createElement("tr");
+            if (err.message.includes("ECONN")) {
+                el.innerHTML = `<td colspan='3'><strong>Cluster unreachable or KUBECONFIG not configured</strong></td></tr>`
+            } else {
+                el.innerHTML = `<td colspan='3'><strong>${err.message}</strong></td></tr>`;
+                console.error('Error: ', err)
+            }
+            document.getElementById("mod_nodes_table").append(el);
+        }); 
     }
     _trimDataString(str, ...filters) {
         return str.trim().split(" ").filter(word => {
@@ -72,3 +60,8 @@ class Nodes {
         }).slice(0, 2).join(" ");
     }
 }
+
+
+module.exports = {
+    Nodes
+};
