@@ -441,7 +441,7 @@ async function initUI() {
             <pre id="terminal4"></pre>
         </div>`;
     window.term = {
-        0: new Terminal({
+        0: new Kubeterm({
             role: "client",
             parentId: "terminal0",
             port: window.settings.port || 3000
@@ -455,7 +455,7 @@ async function initUI() {
     window.onmouseup = e => {
         if (window.keyboard.linkedToTerm) window.term[window.currentTerm].term.focus();
     };
-    window.term[0].term.writeln("\033[1m" + `Welcome to eDEX-UI v${electron.remote.app.getVersion()} - Electron v${process.versions.electron}` + "\033[0m");
+    window.term[0].term.writeln("\033[1m" + `Welcome to kUBEX-UI v${electron.remote.app.getVersion()} - Electron v${process.versions.electron}` + "\033[0m");
 
     await _delay(100);
 
@@ -525,7 +525,7 @@ window.focusShellTab = number => {
             } else if (r.startsWith("SUCCESS")) {
                 let port = Number(r.substr(9));
 
-                window.term[number] = new Terminal({
+                window.term[number] = new Kubeterm({
                     role: "client",
                     parentId: "terminal" + number,
                     port

@@ -35,7 +35,7 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 const whereis = require("@wcjiang/whereis");
-const Terminal = require("./classes/terminal.class.js").Terminal;
+const Kubeterm = require("./classes/kubeterm.class.js").Kubeterm;
 
 ipc.on("log", (e, type, content) => {
     signale[type](content);
@@ -197,7 +197,7 @@ app.on('ready', async () => {
     });
 
     signale.pending(`Creating new terminal process on port ${settings.port || '3000'}`);
-    tty = new Terminal({
+    tty = new Kubeterm ({
         role: "server",
         shell: settings.shell.split(" ")[0],
         params: settings.shell.split(" ").splice(1),
@@ -205,10 +205,10 @@ app.on('ready', async () => {
         env: cleanEnv,
         port: settings.port || 3000
     });
-    signale.success(`Terminal back-end initialized!`);
+    signale.success(`Kubeterm back-end initialized!`);
     tty.onclosed = (code, signal) => {
         tty.ondisconnected = () => {};
-        signale.complete("Terminal exited", code, signal);
+        signale.complete("Kubeterm exited", code, signal);
         app.quit();
     };
     tty.onopened = () => {
@@ -252,7 +252,7 @@ app.on('ready', async () => {
             e.sender.send("ttyspawn-reply", "ERROR: max number of ttys reached");
         } else {
             signale.pending(`Creating new TTY process on port ${port}`);
-            let term = new Terminal({
+            let term = new Kubeterm({
                 role: "server",
                 shell: settings.shell.split(" ")[0],
                 params: settings.shell.split(" ").splice(1),
